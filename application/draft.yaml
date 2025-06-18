@@ -1,0 +1,19 @@
+models:
+  Publisher:
+    uuid
+    timestamps
+    softDeletes
+    name: string:120
+    
+
+controllers:
+  Publisher:
+    index:
+      query: all
+      render: publisher.index with:publishers
+
+    store:
+      validate: name
+      save: publisher
+      flash: publisher.name
+      redirect: publisher.index
