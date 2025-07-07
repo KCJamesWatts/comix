@@ -17,7 +17,8 @@ jobs:
       - name: Check Branch Name
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
-          if [[ ! "$BRANCH_NAME" =~ ^(feature|bugfix|release|hotfix|docs)/((?!.*--)[a-z0-9]+(-[a-z0-9]+)*)$ ]]; then
+
+          if [[ ! "$BRANCH_NAME" =~ ^(feature|bugfix|release|hotfix|docs)\/((?!.*--)[a-z0-9]+(-[a-z0-9]+)*)$ ]]; then
             echo "Invalid branch name detected: $BRANCH_NAME"
             echo "Branch names must:"
             echo "  - Start with: feature/, bugfix/, hotfix/, release/, docs/"

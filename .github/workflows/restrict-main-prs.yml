@@ -1,0 +1,21 @@
+name: Restrict PRs to Main Branch
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  enforce-pr-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check source branch
+        run: |
+          echo "PR source branch: ${{ github.head_ref }}"
+
+          if [[ ! "${{ github.head_ref }}" =~ ^hotfix\/((?!.*--)[a-z0-9]+(-[a-z0-9]+)*)$ ]]; then
+            echo "Only hotfix pull requests can be applied to the main branch."
+            exit 1
+          fi
+
+          echo "Valid hotfix/* branch"          
