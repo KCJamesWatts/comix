@@ -1,0 +1,29 @@
+name: Branch Naming Convention
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - develop
+  pull_request:
+    branches-ignore:
+      - main
+      - develop
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Branch Name
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ ! "$BRANCH_NAME" =~ ^(feature|bugfix|release|hotfix|docs)/((?!.*--)[a-z0-9]+(-[a-z0-9]+)*)$ ]]; then
+            echo "Invalid branch name detected: $BRANCH_NAME"
+            echo "Branch names must:"
+            echo "  - Start with: feature/, bugfix/, hotfix/, release/, docs/"
+            echo "  - Use only lowercase letters, numbers and single hyphens (-)"
+            echo "  - The use of double hyphens (--) and trailing hyphens is not allowed"
+            exit 1
+          fi
+
+          echo "Branch name '$BRANCH_NAME' is valid."
